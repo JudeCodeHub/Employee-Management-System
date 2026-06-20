@@ -26,20 +26,24 @@ app.get("/api/employees", async (req, res) => {
 });
 
 app.post("/api/employees", async (req, res) => {
-  const { name, designation, salary } = req.body;
+  let { name, designation, salary } = req.body;
+  if (name) {
+    name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
   if (!name || !designation || salary === undefined) {
     return res.status(400).json({ error: "Missing fields" });
   }
 
-  const charRegex = /^[A-Za-z\s]+$/;
-  if (!charRegex.test(name))
+  const nameRegex = /^[A-Za-z\s]+$/;
+  const designationRegex = /^[A-Za-z\s\/\-\.&]+$/;
+  if (!nameRegex.test(name))
     return res
       .status(400)
       .json({ error: "Name can only contain letters and spaces" });
-  if (!charRegex.test(designation))
+  if (!designationRegex.test(designation))
     return res
       .status(400)
-      .json({ error: "Designation can only contain letters and spaces" });
+      .json({ error: "Designation can only contain letters, spaces, and special characters (/, -, ., &)" });
   if (salary < 0)
     return res.status(400).json({ error: "Salary cannot be negative" });
 
@@ -70,17 +74,22 @@ app.post("/api/employees", async (req, res) => {
 });
 
 app.put("/api/employees/:id", async (req, res) => {
-  const { name, designation, salary } = req.body;
+  let { name, designation, salary } = req.body;
 
-  const charRegex = /^[A-Za-z\s]+$/;
-  if (name && !charRegex.test(name))
+  if (name) {
+    name = name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+
+  const nameRegex = /^[A-Za-z\s]+$/;
+  const designationRegex = /^[A-Za-z\s\/\-\.&]+$/;
+  if (name && !nameRegex.test(name))
     return res
       .status(400)
       .json({ error: "Name can only contain letters and spaces" });
-  if (designation && !charRegex.test(designation))
+  if (designation && !designationRegex.test(designation))
     return res
       .status(400)
-      .json({ error: "Designation can only contain letters and spaces" });
+      .json({ error: "Designation can only contain letters, spaces, and special characters (/, -, ., &)" });
   if (salary !== undefined && salary < 0)
     return res.status(400).json({ error: "Salary cannot be negative" });
 
