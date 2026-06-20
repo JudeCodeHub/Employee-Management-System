@@ -35,7 +35,7 @@ async function loadEmployees() {
     data.forEach((emp, i) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-      <td>${emp.empNo || "-"}</td>
+      <td>${i + 1}</td>
       <td>${emp.name}</td>
       <td>${emp.designation}</td>
       <td>${emp.salary}</td>
