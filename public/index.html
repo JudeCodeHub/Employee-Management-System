@@ -45,11 +45,30 @@
         <form id="empForm">
           <input type="hidden" id="empId" />
           <label>Name</label>
-          <input type="text" id="name" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed" required />
+          <input
+            type="text"
+            id="name"
+            pattern="^[A-Za-z\s]+$"
+            title="Only letters and spaces are allowed"
+            required
+          />
           <label>Designation</label>
-          <input type="text" id="designation" pattern="^[A-Za-z\s]+$" title="Only letters and spaces are allowed" required />
+          <input
+            type="text"
+            id="designation"
+            pattern="^[A-Za-z\s]+$"
+            title="Only letters and spaces are allowed"
+            required
+          />
           <label>Salary</label>
-          <input type="number" id="salary" step="0.01" min="0" title="Salary must be a positive number" required />
+          <input
+            type="number"
+            id="salary"
+            step="0.01"
+            min="0"
+            title="Salary must be a positive number"
+            required
+          />
           <div class="modal-actions">
             <button type="button" id="cancelBtn">Cancel</button>
             <button type="submit">Save</button>
@@ -59,7 +78,7 @@
     </div>
 
     <footer class="site-footer">
-      <p>&copy; 2026 HR Portal</p>
+      <p>&copy; 2026 Employee Management System. All rights reserved.</p>
     </footer>
 
     <script src="client.js"></script>
