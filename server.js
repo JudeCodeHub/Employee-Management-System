@@ -27,9 +27,15 @@ app.get("/api/employees", async (req, res) => {
 
 app.post("/api/employees", async (req, res) => {
   const { name, designation, salary } = req.body;
-  if (!name || !designation || !salary) {
+  if (!name || !designation || salary === undefined) {
     return res.status(400).json({ error: "Missing fields" });
   }
+  
+  const charRegex = /^[A-Za-z\s]+$/;
+  if (!charRegex.test(name)) return res.status(400).json({ error: "Name can only contain letters and spaces" });
+  if (!charRegex.test(designation)) return res.status(400).json({ error: "Designation can only contain letters and spaces" });
+  if (salary < 0) return res.status(400).json({ error: "Salary cannot be negative" });
+
   try {
     const allEmployees = await Employee.find({}, "empNo");
     let maxId = 0;
@@ -58,6 +64,12 @@ app.post("/api/employees", async (req, res) => {
 
 app.put("/api/employees/:id", async (req, res) => {
   const { name, designation, salary } = req.body;
+  
+  const charRegex = /^[A-Za-z\s]+$/;
+  if (name && !charRegex.test(name)) return res.status(400).json({ error: "Name can only contain letters and spaces" });
+  if (designation && !charRegex.test(designation)) return res.status(400).json({ error: "Designation can only contain letters and spaces" });
+  if (salary !== undefined && salary < 0) return res.status(400).json({ error: "Salary cannot be negative" });
+
   try {
     const updated = await Employee.findByIdAndUpdate(
       req.params.id,
