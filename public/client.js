@@ -97,6 +97,7 @@ async function deleteEmployee(id) {
       const err = await res.json();
       throw new Error(err.error || "Failed to delete");
     }
+    alert("Employee deleted successfully!");
     loadEmployees();
   } catch (err) {
     alert(err.message);
